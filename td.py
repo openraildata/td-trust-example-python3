@@ -2,13 +2,12 @@
 
 # Standard
 from datetime import datetime
-from time import sleep
 import json
+from time import sleep
 
 # Third party
-import stomp
-
 from pytz import timezone
+import stomp
 
 
 TIMEZONE_LONDON: timezone = timezone("Europe/London")
