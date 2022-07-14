@@ -9,7 +9,7 @@ from time import sleep
 from pytz import timezone
 import stomp
 
-
+USE_DURABLE_SUBSCRIPTION = False
 TIMEZONE_LONDON: timezone = timezone("Europe/London")
 
 # TD message types
@@ -33,8 +33,10 @@ class Listener(stomp.ConnectionListener):
     def on_message(self, frame):
         headers, message_raw = frame.headers, frame.body
         parsed_body = json.loads(message_raw)
-        # Acknowledging messages is important, it's part of the basis for our durable subscription.
-        self._mq.ack(id=headers["message-id"], subscription=headers["subscription"])
+
+        if USE_DURABLE_SUBSCRIPTION:
+            # Acknowledging messages is important in client-individual mode
+            self._mq.ack(id=headers["ack"], subscription=headers["subscription"])
 
         # Each message in the queue is a JSON array
         for outer_message in parsed_body:
@@ -78,20 +80,35 @@ if __name__ == "__main__":
     connection.set_listener('', Listener(connection))
 
     # The client-id header is part of the durable subscription - it should be unique to your account
-    connection.connect(**{
-        "username": feed_username,
-        "passcode": feed_password,
-        "wait": True,
-        "client-id": feed_username,
-        })
-    # The activemq.subscriptionName header is also part of the durable subscription, it should be subscription-unique
-    # For example,
-    connection.subscribe(**{
-        "destination": "/topic/TD_ALL_SIG_AREA",
-        "id": 1,
-        "ack": "client-individual",
-        "activemq.subscriptionName": "TD_ALL_SIG_AREA",
-        })
+    if USE_DURABLE_SUBSCRIPTION:
+        connection.connect(**{
+            "username": feed_username,
+            "passcode": feed_password,
+            "wait": True,
+            "client-id": feed_username,
+            })
+    else:
+        connection.connect(**{
+            "username": feed_username,
+            "passcode": feed_password,
+            "wait": True,
+            })
+
+    print("Connected!")
+
+    if USE_DURABLE_SUBSCRIPTION:
+        connection.subscribe(**{
+            "destination": "/topic/TD_ALL_SIG_AREA",
+            "id": 1,
+            "activemq.subscriptionName": "TD_ALL_SIG_AREA",
+            "ack": "client-individual"
+            })
+    else:
+        connection.subscribe(**{
+            "destination": "/topic/TD_ALL_SIG_AREA",
+            "id": 1,
+            "ack": "auto"
+            })
 
     while connection.is_connected():
         sleep(1)
