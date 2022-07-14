@@ -62,7 +62,10 @@ class Listener(stomp.ConnectionListener):
                     ))
 
     def on_error(self, frame):
-        print('received an error {}'.format(frame.message))
+        print('received an error {}'.format(frame.body))
+
+    def on_disconnected(self):
+        print('disconnected')
 
 
 if __name__ == "__main__":
