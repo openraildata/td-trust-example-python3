@@ -58,10 +58,9 @@ several hours if it believes you've attempted to connect while already
 connected.
 
 For this reason, this example does not use durable subscriptions by default,
-although you can set the constant `USE_DURABLE_SUBSCRIPTION` to `True` if
-you do wish to to use this. If you bridge the feed to your own message queue
-server, no such constraint exists and there's no reason not to use durable
-subscriptions with STOMP.
+although you can pass the argument `--durable` if you wish to do so. If you
+bridge the feed to your own message queue server, no such constraint exists
+and there's no reason not to use durable subscriptions with STOMP.
 
 See [here](https://wiki.openraildata.com/index.php?title=About_the_Network_Rail_feeds#Durable_subscriptions_via_STOMP)
 for more information.
