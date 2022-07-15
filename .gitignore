@@ -3,4 +3,7 @@
 !README.md
 !LICENCE.txt
 !requirements.txt
-!td.py
+!main.py
+!/util
+!/util/td.py
+!/util/trust.py

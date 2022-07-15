@@ -1,15 +1,18 @@
-# Python3/stomp.py TD demo script
+# Python3/stomp.py TD/TRUST demo script
 This is a short demonstration script which outputs C-class messages from
-Network Rail's TD feed.
+Network Rail's TD feed, or basic information from the train movements
+feed.
 
 ## Setup
 You must [register an account](https://datafeeds.networkrail.co.uk/ntrod/login)
 for the Network Rail data feeds.
-When your account is active, you can enable the TD feed - log in, go to "my feeds",
+When your account is active, you can enable the feeds - log in, go to "my feeds",
 and click on the "TD" link on the left of the page. Select "All Signalling Areas"
-in the "Available" list, move it into "Selected", then save.
+in the "Available" list, move it into "Selected", then save. For TRUST, the
+process is the same, except you'll need to click on "Train Movements", and
+select "All TOCs".
 
-Create a file named `secrets.json` in the same directory as `td.py`. This
+Create a file named `secrets.json` in the same directory as `main.py`. This
 file should consist of a JSON array containing your registered email and
 password(_not_ your security token).
 For example, if your email address was "user@example.com" and your password
@@ -34,10 +37,14 @@ Open a terminal in your local copy of this repository
 
 ```text
 source venv/bin/activate
-./td.py
+
+# To show TD messages
+./main.py --td
+# To show TRUST messages
+./main.py --trust
 ```
 
-You should now see the printed C-class messages in your terminal.
+You should now see the printed messages in your terminal.
 
 ## Durable subscriptions
 Durable subscriptions have certain advantages - with a durable subscription,
@@ -66,4 +73,5 @@ more information.
 
 # Further information
 * [TD](https://wiki.openraildata.com/index.php?title=TD)
+* [TRUST](https://wiki.openraildata.com/index.php?title=Train_Movements)
 * [Durable subscriptions](https://wiki.openraildata.com/index.php?title=Durable_Subscription)
