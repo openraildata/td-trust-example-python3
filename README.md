@@ -3,21 +3,32 @@ This is a short demonstration script which outputs C-class messages from
 Network Rail's TD feed, or basic information from the train movements
 feed.
 
-## Setup
-You must [register an account](https://datafeeds.networkrail.co.uk/ntrod/login)
+It does not currently display S-class messages from TD.
+
+## Setup (publicdatafeeds)
+You must [register an account](https://publicdatafeeds.networkrail.co.uk/ntrod/create-account)
 for the Network Rail data feeds.
-When your account is active, you can enable the feeds - log in, go to "my feeds",
-and click on the "TD" link on the left of the page. Select "All Signalling Areas"
-in the "Available" list, move it into "Selected", then save. For TRUST, the
-process is the same, except you'll need to click on "Train Movements", and
-select "All TOCs".
+
+Once your account is verified and active, continue to the `setup (both)`
+section below.
+
+## Setup (datafeeds)
+`datafeeds.networkrail.co.uk` is the old portal, to be discontinued in the
+near future. This demonstration script connects to
+`publicdatafeeds.networkrail.co.uk`. If you wish to use this with the old
+feeds, you'll need to edit `main.py`.
+
+For more information on the data feeds migration, see
+[this article](https://wiki.openraildata.com/index.php?title=NROD_System_Refresh)
+on the NROD wiki.
+
+## Setup (both)
 
 Create a file named `secrets.json` in the same directory as `main.py`. This
 file should consist of a JSON array containing your registered email and
-password(_not_ your security token).
-For example, if your email address was "user@example.com" and your password
-was "hunter2", the contents of the file would be:
-```text
+password. For example, if your email address was "user@example.com" and your
+password was "hunter2", the contents of the file would be:
+```json
 ["user@example.com", "hunter2"]
 ```
 
@@ -26,7 +37,7 @@ by opening a terminal in your local copy of this repository, and running the
 following commands. Using a virtual environment is good practice, but you can
 skip these steps if you wish.
 
-```text
+```shell
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
@@ -35,7 +46,7 @@ pip3 install -r requirements.txt
 ## Usage
 Open a terminal in your local copy of this repository
 
-```text
+```shell
 source venv/bin/activate
 
 # To show TD messages
