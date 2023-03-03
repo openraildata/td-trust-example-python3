@@ -1,2 +1,2 @@
-stomp.py==8.0.1
+stomp.py==8.1.0
 pytz==2022.1
