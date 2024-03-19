@@ -27,10 +27,12 @@ class Listener(stomp.ConnectionListener):
             # Acknowledging messages is important in client-individual mode
             self._mq.ack(id=headers["ack"], subscription=headers["subscription"])
 
-        if headers["destination"].startswith("/topic/TRAIN_MVT_"):
+        if "TRAIN_MVT_" in headers["destination"]:
             trust.print_trust_frame(parsed_body)
-        elif headers["destination"].startswith("/topic/TD_"):
+        elif "TD_" in headers["destination"]:
             td.print_td_frame(parsed_body)
+        else:
+            print("Unknown destination: ", headers["destination"])
 
     def on_error(self, frame):
         print('received an error {}'.format(frame.body))
